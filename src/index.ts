@@ -7,6 +7,13 @@ import { createTransport } from "nodemailer";
 import { z } from "zod";
 
 import { AccountStore, CyphtState } from "./state";
+import {
+  deleteEmail as workerDeleteEmail,
+  listEmails as workerListEmails,
+  searchEmails as workerSearchEmails,
+  sendEmail as workerSendEmail,
+  viewEmail as workerViewEmail,
+} from "./mail";
 import type { Account, Env, PublicAccount } from "./types";
 
 export { CyphtState };
@@ -462,7 +469,7 @@ function buildServer(env: Env) {
       try {
         const account = await store.get(args.from);
         if (!account) return errText("Account not found", { email: args.from });
-        return okJson({ ok: true, messageId: await sendEmail(account, args, env) });
+        return okJson({ ok: true, messageId: await workerSendEmail(account, args, env) });
       } catch (error) {
         return errText("Unable to send email", (error as Error).message);
       }
@@ -481,7 +488,7 @@ function buildServer(env: Env) {
       try {
         const account = await store.get(args.email);
         if (!account) return errText("Account not found", { email: args.email });
-        return okJson({ emails: await listEmails(account, args.mailbox, args.limit, env) });
+        return okJson({ emails: await workerListEmails(account, args.mailbox, args.limit, env) });
       } catch (error) {
         return errText("Unable to list emails", (error as Error).message);
       }
@@ -500,7 +507,7 @@ function buildServer(env: Env) {
       try {
         const account = await store.get(args.email);
         if (!account) return errText("Account not found", { email: args.email });
-        return okJson({ email: await viewEmail(account, args.mailbox, args.uid, env) });
+        return okJson({ email: await workerViewEmail(account, args.mailbox, args.uid, env) });
       } catch (error) {
         return errText("Unable to view email", (error as Error).message);
       }
@@ -519,7 +526,7 @@ function buildServer(env: Env) {
       try {
         const account = await store.get(args.email);
         if (!account) return errText("Account not found", { email: args.email });
-        return okJson({ emails: await searchEmails(account, args.mailbox, args.query, env) });
+        return okJson({ emails: await workerSearchEmails(account, args.mailbox, args.query, env) });
       } catch (error) {
         return errText("Unable to search emails", (error as Error).message);
       }
@@ -538,7 +545,7 @@ function buildServer(env: Env) {
       try {
         const account = await store.get(args.email);
         if (!account) return errText("Account not found", { email: args.email });
-        await deleteEmail(account, args.mailbox, args.uid, env);
+        await workerDeleteEmail(account, args.mailbox, args.uid, env);
         return okJson({ ok: true, deleted: args.uid });
       } catch (error) {
         return errText("Unable to delete email", (error as Error).message);
