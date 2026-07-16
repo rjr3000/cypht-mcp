@@ -23,3 +23,13 @@ jobs:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
         run: npx --yes wrangler@latest deploy --config wrangler.jsonc
+      - name: Install Worker secrets
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CYPH_MCP_BEARER: ${{ secrets.CYPH_MCP_BEARER }}
+          ACCOUNT_STORE_KEY: ${{ secrets.ACCOUNT_STORE_KEY }}
+        run: |
+          printf '%s' "$CYPH_MCP_BEARER" | npx --yes wrangler@latest secret put MCP_BEARER --config wrangler.jsonc
+          printf '%s' "$ACCOUNT_STORE_KEY" | npx --yes wrangler@latest secret put ACCOUNT_STORE_KEY --config wrangler.jsonc
