@@ -2,9 +2,43 @@
   "scriptName": "cypht-mcp",
   "githubOwner": "rjr3000",
   "githubRepo": "cypht-mcp",
-  "sourcePath": "skills/S05-cypht-mcp-1/05_scripts/cypht-mcp",
+  "source": "mcp-ops-setup-catalog",
+  "importedAt": "2026-07-16T05:37:53.065Z",
   "ownerSkill": "S05-cypht-mcp-1",
+  "sourcePath": "S05-cypht-mcp-1/05_scripts/cypht-mcp",
+  "ideKey": "cypht-mcp",
   "endpoint": "https://cypht-mcp.rg1.workers.dev/mcp",
-  "branchPolicy": "dev/* → PR → main",
-  "version": "2.0.0"
+  "bindings": [
+    {
+      "kind": "durable_object",
+      "binding": "CYPHT_STATE",
+      "className": "CyphtState"
+    }
+  ],
+  "mcpSurfaces": {
+    "tools": [
+      "help",
+      "meta",
+      "add_account",
+      "set_profile",
+      "list_accounts",
+      "send_email",
+      "list_emails",
+      "view_email",
+      "search_emails",
+      "delete_email"
+    ],
+    "resources": [],
+    "prompts": []
+  },
+  "enhancementModules": [],
+  "containers": null,
+  "wranglerSecrets": [
+    "MCP_BEARER",
+    "ACCOUNT_STORE_KEY"
+  ],
+  "setupNotes": "Public mail endpoint smtp.rg1.in; account passwords are encrypted in CyphtState Durable Object.",
+  "deployWorkflow": "github-actions-worker-only",
+  "branchPolicy": "All changes on dev/* branches; main deploys to Cloudflare Worker.",
+  "warning": null
 }
