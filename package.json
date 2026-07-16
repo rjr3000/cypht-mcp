@@ -1,0 +1,26 @@
+{
+  "name": "cypht-mcp",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "imap": "^0.8.19",
+    "mailparser": "^3.7.1",
+    "nodemailer": "^7.0.3",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260716.0",
+    "@types/imap": "^0.8.42",
+    "@types/mailparser": "^3.4.5",
+    "@types/nodemailer": "^6.4.16",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.19.1"
+  }
+}

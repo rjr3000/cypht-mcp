@@ -1,0 +1,10 @@
+{
+  "scriptName": "cypht-mcp",
+  "githubOwner": "rjr3000",
+  "githubRepo": "cypht-mcp",
+  "sourcePath": "skills/S05-cypht-mcp-1/05_scripts/cypht-mcp",
+  "ownerSkill": "S05-cypht-mcp-1",
+  "endpoint": "https://cypht-mcp.rg1.workers.dev/mcp",
+  "branchPolicy": "dev/* → PR → main",
+  "version": "2.0.0"
+}
