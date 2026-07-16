@@ -25,9 +25,9 @@ async function encryptAccount(account: Account, secret: string): Promise<string>
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const key = await encryptionKey(secret);
   const ciphertext = await crypto.subtle.encrypt(
-    { name: "AES-GCM", iv },
+    { name: "AES-GCM", iv: iv as unknown as BufferSource },
     key,
-    new TextEncoder().encode(JSON.stringify(account)),
+    new TextEncoder().encode(JSON.stringify(account)) as unknown as BufferSource,
   );
   return JSON.stringify({ iv: encodeBase64(iv), ciphertext: encodeBase64(new Uint8Array(ciphertext)) });
 }
@@ -36,9 +36,9 @@ async function decryptAccount(value: string, secret: string): Promise<Account> {
   const envelope = JSON.parse(value) as { iv: string; ciphertext: string };
   const key = await encryptionKey(secret);
   const plaintext = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: decodeBase64(envelope.iv) },
+    { name: "AES-GCM", iv: decodeBase64(envelope.iv) as unknown as BufferSource },
     key,
-    decodeBase64(envelope.ciphertext),
+    decodeBase64(envelope.ciphertext) as unknown as BufferSource,
   );
   return JSON.parse(new TextDecoder().decode(plaintext)) as Account;
 }

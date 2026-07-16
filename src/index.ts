@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
+import { Buffer } from "node:buffer";
 import Imap from "imap";
 import { simpleParser } from "mailparser";
 import { createTransport } from "nodemailer";
@@ -29,6 +30,16 @@ function errText(message: string, details?: unknown) {
 function publicAccount(account: Account): PublicAccount {
   const { password: _password, ...safe } = account;
   return safe;
+}
+
+function addressText(value: unknown): string | undefined {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => (item && typeof item === "object" && "text" in item ? String(item.text) : ""))
+      .filter(Boolean)
+      .join(", ") || undefined;
+  }
+  return value && typeof value === "object" && "text" in value ? String(value.text) : undefined;
 }
 
 function configuredMailHost(env: Env): string {
@@ -252,10 +263,10 @@ async function viewEmail(account: Account, mailbox: string, uid: string, env: En
         fetcher.once("end", async () => {
           imap.end();
           try {
-            const parsed = await simpleParser(buffer);
+            const parsed = await simpleParser(Buffer.from(buffer));
             resolve({
-              from: parsed.from?.text,
-              to: parsed.to?.text,
+              from: addressText(parsed.from),
+              to: addressText(parsed.to),
               subject: parsed.subject,
               date: parsed.date,
               text: parsed.text,

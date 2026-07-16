@@ -16,7 +16,7 @@
     "zod": "^3.25.28"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260716.0",
+    "@cloudflare/workers-types": "^5.20260716.1",
     "@types/imap": "^0.8.42",
     "@types/mailparser": "^3.4.5",
     "@types/nodemailer": "^6.4.16",
