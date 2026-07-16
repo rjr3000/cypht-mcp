@@ -46,7 +46,7 @@ class TcpLineClient {
   }
 
   async write(value: string | Uint8Array): Promise<void> {
-    await this.writer.write(typeof value === "string" ? new TextEncoder().encode(value) : value);
+    this.writer.write(typeof value === "string" ? new TextEncoder().encode(value) : value);
   }
 
   private async fill(minimum: number): Promise<void> {
