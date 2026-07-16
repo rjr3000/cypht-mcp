@@ -1,26 +1,35 @@
 {
-  "$schema": "/usr/lib/node_modules/wrangler/config-schema.json",
   "name": "cypht-mcp",
   "main": "src/index.ts",
-  "compatibility_date": "2026-07-16",
-  "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true,
+  "compatibility_date": "2026-05-29",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "observability": {
     "enabled": true,
-    "logs": { "enabled": true, "invocation_logs": true },
-    "traces": { "enabled": true }
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true
+    }
   },
   "durable_objects": {
     "bindings": [
-      { "name": "CYPHT_STATE", "class_name": "CyphtState" }
+      {
+        "name": "CYPHT_STATE",
+        "class_name": "CyphtState"
+      }
     ]
   },
   "migrations": [
-    { "tag": "v1-cypht-state", "new_sqlite_classes": ["CyphtState"] }
+    {
+      "tag": "v1-setup-catalog",
+      "new_sqlite_classes": [
+        "CyphtState"
+      ]
+    }
   ],
-  "vars": {
-    "MAIL_HOSTNAME": "smtp.rg1.in",
-    "MAIL_IMAP_PORT": "993",
-    "MAIL_SMTP_PORT": "587"
-  }
+  "workers_dev": true
 }
